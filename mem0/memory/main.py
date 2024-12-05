@@ -152,6 +152,8 @@ class Memory(MemoryBase):
         )
 
         try:
+            if response.startswith('```json'):
+                response = response.lstrip('```json').rstrip('```').strip()
             new_retrieved_facts = json.loads(response)["facts"]
         except Exception as e:
             logging.error(f"Error in new_retrieved_facts: {e}")
@@ -168,6 +170,7 @@ class Memory(MemoryBase):
                 filters=filters,
             )
             for mem in existing_memories:
+                print(mem)
                 retrieved_old_memory.append({"id": mem.id, "text": mem.payload["data"]})
 
         logging.info(f"Total existing memories: {len(retrieved_old_memory)}")
@@ -184,6 +187,9 @@ class Memory(MemoryBase):
             messages=[{"role": "user", "content": function_calling_prompt}],
             response_format={"type": "json_object"},
         )
+        # 国产模型得到的json数据会使用markdown格式代码块封装
+        if new_memories_with_actions.startswith('```json'):
+            new_memories_with_actions = new_memories_with_actions.lstrip('```json').rstrip('```').strip()
         new_memories_with_actions = json.loads(new_memories_with_actions)
 
         returned_memories = []

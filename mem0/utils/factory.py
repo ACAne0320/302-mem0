@@ -23,6 +23,7 @@ class LlmFactory:
         "anthropic": "mem0.llms.anthropic.AnthropicLLM",
         "azure_openai_structured": "mem0.llms.azure_openai_structured.AzureOpenAIStructuredLLM",
         "gemini": "mem0.llms.gemini.GeminiLLM",
+        "302ai": "mem0.llms.302ai.AI302LLM",
     }
 
     @classmethod
@@ -45,6 +46,7 @@ class EmbedderFactory:
         "gemini": "mem0.embeddings.gemini.GoogleGenAIEmbedding",
         "vertexai": "mem0.embeddings.vertexai.VertexAIEmbedding",
         "together": "mem0.embeddings.together.TogetherEmbedding",
+        "302ai": "mem0.embeddings.302ai.AI302Embedding",
     }
 
     @classmethod

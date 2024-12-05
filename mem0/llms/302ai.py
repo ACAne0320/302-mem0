@@ -8,24 +8,16 @@ from mem0.configs.llms.base import BaseLlmConfig
 from mem0.llms.base import LLMBase
 
 
-class OpenAILLM(LLMBase):
+class AI302LLM(LLMBase):
     def __init__(self, config: Optional[BaseLlmConfig] = None):
         super().__init__(config)
 
         if not self.config.model:
             self.config.model = "gpt-4o-mini"
 
-        if os.environ.get("OPENROUTER_API_KEY"):  # Use OpenRouter
-            self.client = OpenAI(
-                api_key=os.environ.get("OPENROUTER_API_KEY"),
-                base_url=self.config.openrouter_base_url
-                or os.getenv("OPENROUTER_API_BASE")
-                or "https://openrouter.ai/api/v1",
-            )
-        else:
-            api_key = self.config.api_key or os.getenv("OPENAI_API_KEY")
-            base_url = self.config.openai_base_url or os.getenv("OPENAI_API_BASE") or "https://api.openai.com/v1"
-            self.client = OpenAI(api_key=api_key, base_url=base_url)
+        api_key = self.config.api_key or os.getenv("302AI_API_KEY")
+        base_url = self.config.openai_base_url or os.getenv("302AI_API_BASE") or "https://api.302.ai/v1"
+        self.client = OpenAI(api_key=api_key, base_url=base_url)
 
     def _parse_response(self, response, tools):
         """
